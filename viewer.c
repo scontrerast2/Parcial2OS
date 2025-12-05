@@ -4,6 +4,33 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <time.h>
+
+#define MAX_AGENTES 100
+#define SHM_NAME    "/monitor_shm"
+
+typedef struct {
+    char ip[32];
+
+    time_t ultima_actualizacion;
+
+    float cpu_usage;
+    float cpu_user;
+    float cpu_system;
+    float cpu_idle;
+
+    float mem_used_mb;
+    float mem_free_mb;
+    float swap_total_mb;
+    float swap_free_mb;
+
+    int activo;
+} AgenteInfo;
+
+typedef struct {
+    int num_agentes;
+    AgenteInfo agentes[MAX_AGENTES];
+} SharedData;
+SharedData *data = NULL;
 #include "shared.h"
 
 #define INTERVALO_SEG 2
